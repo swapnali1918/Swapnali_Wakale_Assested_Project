@@ -13,32 +13,28 @@ import javax.transaction.*;
 import javax.xml.bind.*;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
-import com.lesson3.EProduct1;
+
+import com.lesson3.EProduct;
 import com.lesson3.HibernateUtil;
 
+
 /**
- * Servlet implementation class ProductDetails1
+ * Servlet implementation class InitHibernate
  */
-@WebServlet("/ProductDetails1")
-public class ProductDetails1 extends HttpServlet {
+@WebServlet("/InitHibernate")
+public class InitHibernate extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ProductDetails1() {
+    public InitHibernate() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -48,34 +44,23 @@ public class ProductDetails1 extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            SessionFactory factory = HibernateUtil.getSessionFactory();
-            
-            Session session = factory.openSession();
-            
-            
-             
-            List<EProduct> list = session.createQuery("from EProduct1").list();
-            
             PrintWriter out = response.getWriter();
             out.println("<html><body>");
-            
-            out.println("<b>Component Mapping</b><br>");
-            for(EProduct1 p: list) {
-                    out.println("ID: " + String.valueOf(p.getID()) + ", Name: " + p.getName() +
-                                    ", Price: " + String.valueOf(p.getPrice()) + ", Date Added: " + p.getDateAdded().toString());
-                    ProductParts parts = p.getParts();
-                    out.println("Parts =" + parts.getCpu() + ", " + parts.getHdd() + ", " + parts.getRam());
-                    out.println("<hr>");
-            }
-            
-                   session.close();
 
-        out.println("</body></html>");
-        
-        
-    } catch (Exception ex) {
-            throw ex;
-    }
+            SessionFactory factory = HibernateUtil.getSessionFactory();
+                   
+            Session session = factory.openSession();
+            out.println("Hibernate Session opened.<br>");
+            session.close();
+            out.println("Hibernate Session closed.<br>");
+                   
+            out.println("</body></html>");
+               
+                
+            } catch (Exception ex) {
+                    throw ex;
+            }
+
 
 	}
 
